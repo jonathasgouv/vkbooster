@@ -1,0 +1,14 @@
+#conteudo {
+	align-content: center;
+	display: flex;
+	flex-direction: column;
+}
+
+#url {
+	margin: 0.5em;
+}
+
+#salvar {
+	align-self: center;
+	align-content: center;
+}
