@@ -1,11 +1,13 @@
 urlmembro = '';
+texto = '';
 
 chrome.storage.sync.get(
 	[
 		'key'
 	],
 	function(result) {
-		urlmembro = result.key;
+		urlmembro = result.key[0];
+		texto = result.key[1];
 	}
 );
 
@@ -21,7 +23,7 @@ setInterval(function() {
 						.getElementsByClassName('bp_author')[0]
 						.href.toString() == urlmembro.toString()
 				) {
-					posts[i].innerHTML = 'MEMBRO BLOQUEADO POR SER MUITO RUIM';
+					posts[i].innerHTML = texto.toString();
 					posts[i].style.textAlign = 'center';
 					posts[i].style.fontWeight = 'bolder';
 				}
