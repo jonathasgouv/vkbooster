@@ -11,7 +11,7 @@ chrome.storage.sync.get(
 
 setInterval(function() {
 	url = document.location.toString();
-	if (url.includes('vk.com/topic-73721457_') && urlmembro != undefined) {
+	if (url.includes('vk.com/topic-') && urlmembro != undefined) {
 		try {
 			posts = document.getElementsByClassName('bp_info');
 			for (i = 0; i <= posts.length; i++) {
