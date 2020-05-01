@@ -1,8 +1,8 @@
 {
 	"manifest_version": 2,
 	"name": "VK Member Blocking",
-	"version": "0.2",
 	"author": "Jônathas Gouveia",
+	"version": "0.2",
 	"content_scripts": [
 		{
 			"matches": [
@@ -16,6 +16,11 @@
 	"browser_action": {
 		"default_icon": "vk-logo.png",
 		"default_popup": "popup.html"
+	},
+	"background": {
+		"scripts": [
+			"background.js"
+		]
 	},
 	"permissions": [
 		"storage"
