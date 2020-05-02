@@ -32,3 +32,19 @@ setInterval(function() {
 	} else {
 	}
 }, 500);
+
+setInterval(function() {
+	url = document.location.toString();
+	if (url.includes('vk.com/topic-')) {
+		try {
+			paragrafos = document.getElementsByTagName('p');
+			for (i = 0; i <= paragrafos.length; i++) {
+				if (paragrafos[i].innerHTML.includes('//////')) {
+					html = paragrafos[i].innerText.split('//////')[1];
+					paragrafos[i].innerHTML = html;
+				}
+			}
+		} catch (error) {}
+	} else {
+	}
+}, 500);
