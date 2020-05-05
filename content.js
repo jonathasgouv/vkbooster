@@ -9,7 +9,7 @@ chrome.storage.sync.get(
 		'Url'
 	],
 	function(result) {
-		urlmembro = result.Url.toString();
+		urlmembro = result.Url;
 	}
 );
 
@@ -18,7 +18,7 @@ chrome.storage.sync.get(
 		'Texto'
 	],
 	function(result) {
-		texto = result.Texto.toString();
+		texto = result.Texto;
 	}
 );
 

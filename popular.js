@@ -1,12 +1,3 @@
-chrome.storage.sync.get(
-	[
-		'AccessKey'
-	],
-	function(result) {
-		accesskey = result.AccessKey;
-	}
-);
-
 function generateRepliedHTML(replied) {
 	if (replied.includes('bp')) {
 		var id = replied.split(':')[0].split('[')[1];
@@ -43,35 +34,6 @@ function generateImageHTML(attachment, postid, cmmid) {
 		var html = '<br><img src="' + attachment.photo.photo_604 + '"/>';
 		return html;
 	} else if (attachment.type == 'video') {
-		vattachment = {
-			type  : 'video',
-			video : {
-				access_key       : '53b62e7a02f6dca39d',
-				can_comment      : 1,
-				can_like         : 1,
-				can_repost       : 1,
-				can_subscribe    : 1,
-				can_add_to_faves : 1,
-				can_add          : 1,
-				comments         : 0,
-				date             : 1553455030,
-				description      :
-					'28 April 2010 . UEFA Champions League Semi Final - FC Barcelona vs FC Internazionale Milan\nJose Mourinho celebrations! - Πανηγύρια του Jose Mourinh...',
-				duration         : 46,
-				photo_130        : 'https://sun9-47.userapi.com/c852232/v852232866/e6128/akxAzz4z4pc.jpg',
-				photo_320        : 'https://sun9-53.userapi.com/c852232/v852232866/e612a/XvYsNyaWBRo.jpg',
-				photo_800        : 'https://sun9-46.userapi.com/c852232/v852232866/e612b/VU0C-xvNqY0.jpg',
-				id               : 456239091,
-				owner_id         : 290219094,
-				title            : 'Mourinho Epic Celebration - Barcelona Vs Inter (28.04.2010)',
-				track_code       :
-					'video_1bb5fa36nS0X6McUO1ZL2y1cdOh-n7uwb1h21wB8TuaEQDQmUGasCRfgwxM9MErSKDBz63yevolfYUfQdRIl',
-				views            : 287,
-				local_views      : 287,
-				platform         : 'YouTube'
-			}
-		};
-
 		var html =
 			'<a href="/' +
 			attachment.video.track_code +
@@ -84,12 +46,14 @@ function generateImageHTML(attachment, postid, cmmid) {
 			'topic_' +
 			postid +
 			'"},"module":null}, event, this);" style="width: 490px; height: 276px;background-image: url(' +
-			attachment.vphoto_800 +
+			attachment.video.photo_800 +
 			');" class="page_post_thumb_wrap image_cover  page_post_thuideo.mb_video page_post_thumb_last_column page_post_thumb_last_row"><div class="page_post_video_play_inline"></div><div class="video_thumb_label"><span class="video_thumb_label_item">' +
 			attachment.video.platform +
 			'</span><span class="video_thumb_label_item">0:46</span></div></a>';
 
 		return html;
+	} else {
+		return '';
 	}
 }
 
@@ -211,162 +175,15 @@ function generatePopularHTML(cmmid, tid, post, profile) {
 	return html;
 }
 
-async function getHighest(cmmid, tid, offset) {
-	let highest;
-	breaker = '';
-
-	urlfetch =
-		'https://api.vk.com/method/board.getComments?group_id=' +
-		cmmid +
-		'&topic_id=' +
-		tid +
-		'&need_likes=1&count=100&extended=1&offset=' +
-		offset +
-		'&access_token=' +
-		accesskey.toString() +
-		'&v=5.52';
-
-	let response = await fetch(urlfetch);
-	let data = await response.json();
-	return data;
-}
-
-function getHighestAllTWO(cmmid, tid) {
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 	divai = document.getElementById('divai');
-	postsa = [];
-	profilesa = [];
-
-	getHighest(cmmid, tid, 0).then(function(data) {
-		rawdata = data.response.items;
-		profiles = data.response.profiles;
-
-		postsa.push(rawdata);
-		profilesa.push(profiles);
-		if (rawdata.length == 100) {
-			getHighest(cmmid, tid, 100).then(function(data) {
-				rawdata = data.response.items;
-				profiles = data.response.profiles;
-				postsa.push(rawdata);
-				profilesa.push(profiles);
-				if (rawdata.length == 100) {
-					getHighest(cmmid, tid, 200).then(function(data) {
-						rawdata = data.response.items;
-						profiles = data.response.profiles;
-						postsa.push(rawdata);
-						profilesa.push(profiles);
-						if (rawdata.length == 100) {
-							getHighest(cmmid, tid, 300).then(function(data) {
-								rawdata = data.response.items;
-								profiles = data.response.profiles;
-								postsa.push(rawdata);
-								profilesa.push(profiles);
-								if (rawdata.length == 100) {
-									getHighest(cmmid, tid, 400).then(function(data) {
-										rawdata = data.response.items;
-										profiles = data.response.profiles;
-										postsa.push(rawdata);
-										profilesa.push(profiles);
-										if ((rawdata.lenght = 100)) {
-											var highest = postsa.flat().sort(function(a, b) {
-												return b.likes.count - a.likes.count;
-											})[0];
-											profile = profilesa.flat().filter((obj) => {
-												return obj.id === highest.from_id;
-											})[0];
-											if (highest.likes.count > 0) {
-												var html = generatePopularHTML(cmmid, tid, highest, profile);
-												divai.innerHTML = html;
-												divai.style.background = '#ced8d9';
-												divai.style.margin = '-0.5em';
-												divai.style.paddingLeft = '1em';
-												divai.style.paddingRight = '1em';
-											}
-										} else {
-											var highest = postsa.flat().sort(function(a, b) {
-												return b.likes.count - a.likes.count;
-											})[0];
-											profile = profilesa.flat().filter((obj) => {
-												return obj.id === highest.from_id;
-											})[0];
-											if (highest.likes.count > 0) {
-												var html = generatePopularHTML(cmmid, tid, highest, profile);
-												divai.innerHTML = html;
-												divai.style.background = '#ced8d9';
-												divai.style.margin = '-0.5em';
-												divai.style.paddingLeft = '1em';
-												divai.style.paddingRight = '1em';
-											}
-										}
-									});
-								} else {
-									var highest = postsa.flat().sort(function(a, b) {
-										return b.likes.count - a.likes.count;
-									})[0];
-									profile = profilesa.flat().filter((obj) => {
-										return obj.id === highest.from_id;
-									})[0];
-									if (highest.likes.count > 0) {
-										var html = generatePopularHTML(cmmid, tid, highest, profile);
-										divai.innerHTML = html;
-										divai.style.background = '#ced8d9';
-										divai.style.margin = '-0.5em';
-										divai.style.paddingLeft = '1em';
-										divai.style.paddingRight = '1em';
-									}
-								}
-							});
-						} else {
-							var highest = postsa.flat().sort(function(a, b) {
-								return b.likes.count - a.likes.count;
-							})[0];
-							profile = profilesa.flat().filter((obj) => {
-								return obj.id === highest.from_id;
-							})[0];
-							if (highest.likes.count > 0) {
-								var html = generatePopularHTML(cmmid, tid, highest, profile);
-								divai.innerHTML = html;
-								divai.style.background = '#ced8d9';
-								divai.style.margin = '-0.5em';
-								divai.style.paddingLeft = '1em';
-								divai.style.paddingRight = '1em';
-							}
-						}
-					});
-				} else {
-					var highest = postsa.flat().sort(function(a, b) {
-						return b.likes.count - a.likes.count;
-					})[0];
-					profile = profilesa.flat().filter((obj) => {
-						return obj.id === highest.from_id;
-					})[0];
-					if (highest.likes.count > 0) {
-						var html = generatePopularHTML(cmmid, tid, highest, profile);
-						divai.innerHTML = html;
-						divai.style.background = '#ced8d9';
-						divai.style.margin = '-0.5em';
-						divai.style.paddingLeft = '1em';
-						divai.style.paddingRight = '1em';
-					}
-				}
-			});
-		} else {
-			var highest = postsa.flat().sort(function(a, b) {
-				return b.likes.count - a.likes.count;
-			})[0];
-			profile = profilesa.flat().filter((obj) => {
-				return obj.id === highest.from_id;
-			})[0];
-			if (highest.likes.count > 0) {
-				var html = generatePopularHTML(cmmid, tid, highest, profile);
-				divai.innerHTML = html;
-				divai.style.background = '#ced8d9';
-				divai.style.margin = '-0.5em';
-				divai.style.paddingLeft = '1em';
-				divai.style.paddingRight = '1em';
-			}
-		}
-	});
-}
+	var html = generatePopularHTML(request.cmmid, request.tid, request.highest, request.profile);
+	divai.innerHTML = html;
+	divai.style.background = '#ced8d9';
+	divai.style.margin = '-0.5em';
+	divai.style.paddingLeft = '1em';
+	divai.style.paddingRight = '1em';
+});
 
 setInterval(function() {
 	url = document.location.toString();
@@ -380,21 +197,27 @@ setInterval(function() {
 
 			if (url.includes('?offset=')) {
 				if (document.location.toString().split('-')[1].split('_')[1].split('?')[1].split('=')[1] === '0') {
-					cmmid = document.location.toString().split('-')[1].split('_')[0];
-					topicid = document.location.toString().split('-')[1].split('_')[1].split('?')[0];
-					getHighestAllTWO(cmmid, topicid);
+					var cmmid = document.location.toString().split('-')[1].split('_')[0];
+					var topicid = document.location.toString().split('-')[1].split('_')[1].split('?')[0];
+					chrome.runtime.sendMessage({ cmmid: cmmid, tid: topicid }, function(response) {
+						console.log(response.farewell);
+					});
 				}
 			} else {
 				if (url.includes('?post=')) {
 					if (document.querySelector('#bt_pages > a.pg_lnk_sel.fl_l > div').innerText === '1') {
-						cmmid = document.location.toString().split('-')[1].split('_')[0];
-						topicid = document.location.toString().split('-')[1].split('_')[1].split('?')[0];
-						getHighestAllTWO(cmmid, topicid);
+						var cmmid = document.location.toString().split('-')[1].split('_')[0];
+						var topicid = document.location.toString().split('-')[1].split('_')[1].split('?')[0];
+						chrome.runtime.sendMessage({ cmmid: cmmid, tid: topicid }, function(response) {
+							console.log(response.farewell);
+						});
 					}
 				} else {
-					cmmid = document.location.toString().split('-')[1].split('_')[0];
-					topicid = document.location.toString().split('-')[1].split('_')[1];
-					getHighestAllTWO(cmmid, topicid);
+					var cmmid = document.location.toString().split('-')[1].split('_')[0];
+					var topicid = document.location.toString().split('-')[1].split('_')[1];
+					chrome.runtime.sendMessage({ cmmid: cmmid, tid: topicid }, function(response) {
+						console.log(response.farewell);
+					});
 				}
 			}
 		} catch (error) {}
