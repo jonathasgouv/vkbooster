@@ -1,15 +1,17 @@
 {
 	"manifest_version": 2,
-	"name": "VK Member Blocking",
+	"name": "VK Booster",
 	"author": "Jônathas Gouveia",
-	"version": "0.5",
+	"version": "1",
 	"content_scripts": [
 		{
 			"matches": [
-				"*://vk.com/*"
+				"*://vk.com/*",
+				"*://oauth.vk.com/*"
 			],
 			"js": [
-				"content.js"
+				"content.js",
+				"popular.js"
 			]
 		}
 	],
@@ -17,12 +19,33 @@
 		"default_icon": "vk-logo.png",
 		"default_popup": "popup.html"
 	},
+	"icons": {
+		"16": "icon.ico",
+		"32": "icon.ico",
+		"48": "icon.ico",
+		"64": "icon.ico",
+		"128": "icon.ico"
+	},
+	"oauth2": {
+		"client_id": "7445907",
+		"scopes": [
+			"groups,offline"
+		]
+	},
 	"background": {
 		"scripts": [
 			"background.js"
-		]
+		],
+		"persistent": true
 	},
 	"permissions": [
-		"storage"
+		"activeTab",
+		"identity",
+		"notifications",
+		"contextMenus",
+		"storage",
+		"*://vk.com/*",
+		"*://*.vk.com/*",
+		"webNavigation"
 	]
 }

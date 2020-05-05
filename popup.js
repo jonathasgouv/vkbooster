@@ -1,4 +1,6 @@
 window.resizeBy(800, 600);
+urlmembro = '';
+texto = '';
 
 function isValid() {
 	if (document.getElementById('url').value != '' && document.getElementById('texto').value != '') {
@@ -10,14 +12,12 @@ function isValid() {
 
 document.getElementById('salvar').addEventListener('click', function() {
 	if (isValid()) {
-		data = [
-			document.getElementById('url').value,
-			document.getElementById('texto').value
-		];
+		var url = document.getElementById('url').value;
+		var texto = document.getElementById('texto').value;
 
-		chrome.storage.sync.set({ key: data }, function() {
-			alert('Salvo com sucesso');
-		});
+		chrome.storage.sync.set({ Url: url }, function() {});
+		chrome.storage.sync.set({ Texto: texto }, function() {});
+		alert('Salvo com sucesso');
 	} else {
 		alert('Preencha todas as informações necessárias!');
 	}

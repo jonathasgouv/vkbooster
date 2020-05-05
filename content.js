@@ -6,20 +6,21 @@ let urlmembro, texto, accesskey;
 
 chrome.storage.sync.get(
 	[
-		'key'
+		'Url'
 	],
 	function(result) {
-		urlmembro = result.key[0];
-		texto = result.key[1];
-		accesskey = result.key[2];
+		urlmembro = result.Url.toString();
 	}
 );
 
-function highest(arguments) {
-	return [].slice.call(arguments).sort(function(a, b) {
-		return b.likes.count - a.likes.count;
-	});
-}
+chrome.storage.sync.get(
+	[
+		'Texto'
+	],
+	function(result) {
+		texto = result.Texto.toString();
+	}
+);
 
 function generateHTML(tag, url) {
 	if (tag == 'gif') {
