@@ -4,15 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="popup.css">
+    <link rel="stylesheet" href="photon.css">
     <title>Document</title>
 </head>
 <body>
+    <div class="form-group">
     <div id="conteudo">
     <label id="label" for="url">Cole o link do membro a ser bloqueado</label>
-    <input id="url" type="text">
-    <label id="label" for="texto">Digite o texto que substituirá a mensagem do membro bloqueado</label>
-    <input id="texto" type="text">
-    <button id="salvar">Salvar</button>
+    <input id="url" type="text"  class="form-control">
+    <label id="label" for="texto">Digite o texto que substituirá o post do membro</label>
+    <input id="texto" type="text" class="form-control">
+    <button id="salvar" class="btn btn-large btn-positive">Salvar</button>
+    <a href="#" id="config">Configurações</a>
+</div>
 </div>
 </body>
 <script src="jquery.js"></script>

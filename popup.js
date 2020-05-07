@@ -22,3 +22,7 @@ document.getElementById('salvar').addEventListener('click', function() {
 		alert('Preencha todas as informações necessárias!');
 	}
 });
+
+document.getElementById('config').addEventListener('click', function() {
+	chrome.runtime.openOptionsPage();
+});

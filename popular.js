@@ -34,23 +34,14 @@ function generateImageHTML(attachment, postid, cmmid) {
 		var html = '<br><img src="' + attachment.photo.photo_604 + '"/>';
 		return html;
 	} else if (attachment.type == 'video') {
-		var html =
-			'<a href="/' +
-			attachment.video.track_code +
-			'" data-video="290219094_456239091" data-list="3ef185fb7bf037b711" data-duration="46" aria-label="' +
-			attachment.video.title +
-			'" onclick="return showInlineVideo("290219094_456239091", "' +
-			attachment.video.access_key +
-			'", {"autoplay":1,"has_restriction":0,"addParams":{"post_id":"-' +
-			cmmid +
-			'topic_' +
-			postid +
-			'"},"module":null}, event, this);" style="width: 490px; height: 276px;background-image: url(' +
-			attachment.video.photo_800 +
-			');" class="page_post_thumb_wrap image_cover  page_post_thuideo.mb_video page_post_thumb_last_column page_post_thumb_last_row"><div class="page_post_video_play_inline"></div><div class="video_thumb_label"><span class="video_thumb_label_item">' +
-			attachment.video.platform +
-			'</span><span class="video_thumb_label_item">0:46</span></div></a>';
+		var html = '<br><img src="' + attachment.video.photo_800 + '"/>';
 
+		return html;
+	} else if (attachment.type == 'doc') {
+		var html = '<br><img src="' + attachment.doc.url + '"/>';
+		return html;
+	} else if (attachment.type == 'sticker') {
+		var html = '<br><img src="' + attachment.sticker.photo_128 + '"/>';
 		return html;
 	} else {
 		return '';
@@ -183,6 +174,8 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 	divai.style.margin = '-0.5em';
 	divai.style.paddingLeft = '1em';
 	divai.style.paddingRight = '1em';
+
+	sendResponse(true);
 });
 
 setInterval(function() {
@@ -199,25 +192,20 @@ setInterval(function() {
 				if (document.location.toString().split('-')[1].split('_')[1].split('?')[1].split('=')[1] === '0') {
 					var cmmid = document.location.toString().split('-')[1].split('_')[0];
 					var topicid = document.location.toString().split('-')[1].split('_')[1].split('?')[0];
-					chrome.runtime.sendMessage({ cmmid: cmmid, tid: topicid }, function(response) {
-						console.log(response.farewell);
-					});
+					chrome.runtime.sendMessage({ cmmid: cmmid, tid: topicid }, function(response) {});
+				} else {
 				}
 			} else {
 				if (url.includes('?post=')) {
 					if (document.querySelector('#bt_pages > a.pg_lnk_sel.fl_l > div').innerText === '1') {
 						var cmmid = document.location.toString().split('-')[1].split('_')[0];
 						var topicid = document.location.toString().split('-')[1].split('_')[1].split('?')[0];
-						chrome.runtime.sendMessage({ cmmid: cmmid, tid: topicid }, function(response) {
-							console.log(response.farewell);
-						});
+						chrome.runtime.sendMessage({ cmmid: cmmid, tid: topicid }, function(response) {});
 					}
 				} else {
 					var cmmid = document.location.toString().split('-')[1].split('_')[0];
 					var topicid = document.location.toString().split('-')[1].split('_')[1];
-					chrome.runtime.sendMessage({ cmmid: cmmid, tid: topicid }, function(response) {
-						console.log(response.farewell);
-					});
+					chrome.runtime.sendMessage({ cmmid: cmmid, tid: topicid }, function(response) {});
 				}
 			}
 		} catch (error) {}

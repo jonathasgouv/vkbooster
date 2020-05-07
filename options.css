@@ -1,0 +1,14 @@
+body {
+	background-color: aliceblue;
+}
+
+#corpo {
+	align-items: center !important;
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+}
+
+#minlikes {
+	text-align: center;
+}

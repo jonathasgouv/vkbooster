@@ -1,8 +1,6 @@
 rex = /\((.*)\)/;
 
-data = [];
-
-let urlmembro, texto, accesskey;
+let urlmembro, texto;
 
 chrome.storage.sync.get(
 	[

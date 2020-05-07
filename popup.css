@@ -1,7 +1,15 @@
+* {
+	overflow-wrap: break-word;
+	text-align: center;
+	text-decoration: none;
+}
+
 #conteudo {
 	align-content: center;
 	display: flex;
 	flex-direction: column;
+	padding: 4em;
+	width: 100%;
 }
 
 #url,
@@ -12,4 +20,20 @@
 #salvar {
 	align-self: center;
 	align-content: center;
+	margin: 0.5em;
+}
+
+#config {
+	cursor: pointer;
+	align-self: center;
+	align-content: center;
+	text-align: center;
+}
+
+.form-group {
+	width: 100%;
+}
+
+.form-control {
+	width: 400px !important;
 }
